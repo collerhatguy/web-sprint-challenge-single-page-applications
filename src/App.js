@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Form from "./components/Form";
+import "./reset.css"
 
 const App = () => {
   return (

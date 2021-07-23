@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import Topping from "./Topping";
 
 const defaultForm = {
     name: "",
@@ -13,7 +14,6 @@ const defaultForm = {
 export default function Form() {
     const [formState, setFormState] = useState(defaultForm);
     const [error, setError] = useState("")
-    const [orders, setOrders] = useState([])
     const toppings = ["bacon", "chicken", "olives", "pineapple"];
 
     const change = evt => {
@@ -32,7 +32,7 @@ export default function Form() {
             special: formState.special.trim(),
         }
         axios.post("https://reqres.in/api/orders", newOrder)
-            .then(res => setOrders(prev => [...prev, res.data]))
+            .then(res => console.log(res.data))
             .catch(err => console.log(err))
             .finally(() => setFormState(defaultForm));
     }
@@ -65,15 +65,11 @@ export default function Form() {
                     </select>
                 </label>
                 {toppings.map(t => 
-                    <label for={t}>
-                        {t}:
-                        <input 
-                            type="checkbox" 
-                            name={t} 
-                            onChange={change}
-                            checked={formState[t]}
-                        />
-                    </label>    
+                    <Topping 
+                        topping={t} 
+                        change={change} 
+                        formState={formState} 
+                    />
                 )}
                 <label for="special-text">
                     Special Instruction:
