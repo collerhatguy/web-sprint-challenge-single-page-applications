@@ -31,9 +31,9 @@ export default function Form() {
         }
         axios.post("https://reqres.in/api/orders", newOrder)
             .then(res => setOrders(prev => [...prev, res.data]))
-
-        
-        setFormState(defaultForm);
+            .catch(err => console.log(err))
+            .finally(() => setFormState(defaultForm));
+            
     }
     useEffect(() => {
         const { name } = formState;
