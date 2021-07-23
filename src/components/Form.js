@@ -26,6 +26,7 @@ export default function Form() {
     const submit = evt => {
         evt.preventDefault();
         const newOrder = {
+            // checkboxes don't need to be trimed
             ...formState,
             name: formState.name.trim(),
             size: formState.size.trim(),
@@ -84,6 +85,7 @@ export default function Form() {
                 {error ? <p>{error}</p> : null}
                 <button type="submit"
                     id="order-button"
+                    // 0's are falsey
                     disabled={error.length}
                 >Add to Order</button>
             </form>
