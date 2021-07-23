@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+
 const defaultForm = {
     name: "",
     size: "",
+    special: "",
     chicken: false,
     pineapple: false,
     bacon: false,
     olives: false,
-    special: "",
 }
 export default function Form() {
     const [formState, setFormState] = useState(defaultForm);
@@ -26,6 +28,8 @@ export default function Form() {
             size: formState.size.trim(),
             special: formState.special.trim(),
         }
+        axios.post("https://reqres.in/api/orders", newOrder)
+        
         setFormState(defaultForm);
     }
     useEffect(() => {
@@ -34,7 +38,7 @@ export default function Form() {
         setError(newError);
     }, [formState])
     return (
-        <div>
+        <main>
             <form id="pizza-form" onSubmit={submit}>
                 <label for="name-input">
                     Name: 
@@ -109,6 +113,6 @@ export default function Form() {
                     disabled={error.length > 0}
                 >Add to Order</button>
             </form>
-        </div>
+        </main>
     )
 }
