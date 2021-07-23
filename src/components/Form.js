@@ -14,6 +14,7 @@ export default function Form() {
     const [formState, setFormState] = useState(defaultForm);
     const [error, setError] = useState("")
     const [orders, setOrders] = useState([])
+    const toppings = ["bacon", "chicken", "olives", "pineapple"];
 
     const change = evt => {
         const {value, type, name, checked} = evt.target;
@@ -34,7 +35,6 @@ export default function Form() {
             .then(res => setOrders(prev => [...prev, res.data]))
             .catch(err => console.log(err))
             .finally(() => setFormState(defaultForm));
-
     }
     useEffect(() => {
         const { name } = formState;
@@ -64,42 +64,17 @@ export default function Form() {
                         <option value="large">large</option>
                     </select>
                 </label>
-                <label>
-                    Olives: 
-                    <input 
-                        type="checkbox" 
-                        name="olives" 
-                        onChange={change}
-                        checked={formState.olives}
-                    />
-                </label>
-                <label>
-                    Bacon: 
-                    <input 
-                        type="checkbox" 
-                        name="bacon" 
-                        onChange={change}
-                        checked={formState.bacon}
-                    />
-                </label>
-                <label>
-                    Pineapple: 
-                    <input 
-                        type="checkbox" 
-                        name="pineapple" 
-                        onChange={change}
-                        checked={formState.pineapple}
-                    />
-                </label>
-                <label>
-                    Chicken: 
-                    <input 
-                        type="checkbox" 
-                        name="chicken" 
-                        onChange={change}
-                        checked={formState.chicken}
-                    />
-                </label>
+                {toppings.map(t => 
+                    <label for={t}>
+                        {t}:
+                        <input 
+                            type="checkbox" 
+                            name={t} 
+                            onChange={change}
+                            checked={formState[t]}
+                        />
+                    </label>    
+                )}
                 <label for="special-text">
                     Special Instruction:
                     <input 
@@ -113,7 +88,7 @@ export default function Form() {
                 {error ? <p>{error}</p> : null}
                 <button type="submit"
                     id="order-button"
-                    disabled={error.length > 0}
+                    disabled={error.length}
                 >Add to Order</button>
             </form>
         </main>
