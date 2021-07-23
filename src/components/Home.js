@@ -7,7 +7,7 @@ export default function Home() {
             <header>
                 <nav>
                     <Link id="order-pizza"  
-                    to="/pizza">Order Pizza</Link>
+                    to="/pizza">Pizza?</Link>
                 </nav>
             </header>
         </div>

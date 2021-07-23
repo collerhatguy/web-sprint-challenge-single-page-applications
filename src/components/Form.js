@@ -1,24 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 const defaultForm = {
     name: "",
     size: "",
-    topping1: false,
-    topping2: false,
+    chicken: false,
+    pineapple: false,
+    bacon: false,
+    olives: false,
     special: "",
 }
 export default function Form() {
-    const [formState, setFormState] = useState(defaultForm)
+    const [formState, setFormState] = useState(defaultForm);
+    const [error, setError] = useState("")
     const change = evt => {
         const {value, type, name, checked} = evt.target;
         const newValue = type === "checkbox" ? checked : value;
-
         setFormState(prevState => {
             return {...prevState, [name]: newValue}
         })
     }
+    const submit = evt => {
+        evt.preventDefault();
+        const newOrder = {
+            ...formState,
+            name:  formState.name.trim(),
+            size: formState.size.trim(),
+            special: formState.special.trim(),
+        }
+        setFormState(defaultForm);
+    }
+    useEffect(() => {
+        const { name } = formState;
+        const newError = name.length < 2 ? "name must be at least 2 characters" : "";
+        setError(newError);
+    }, [formState])
     return (
         <div>
-            <form id="pizza-form">
+            <form id="pizza-form" onSubmit={submit}>
                 <label for="name-input">
                     Name: 
                     <input
@@ -40,6 +57,57 @@ export default function Form() {
                         <option value="large">large</option>
                     </select>
                 </label>
+                <label>
+                    Olives: 
+                    <input 
+                        type="checkbox" 
+                        name="olives" 
+                        onChange={change}
+                        checked={formState.olives}
+                    />
+                </label>
+                <label>
+                    Bacon: 
+                    <input 
+                        type="checkbox" 
+                        name="bacon" 
+                        onChange={change}
+                        checked={formState.bacon}
+                    />
+                </label>
+                <label>
+                    Pineapple: 
+                    <input 
+                        type="checkbox" 
+                        name="pineapple" 
+                        onChange={change}
+                        checked={formState.pineapple}
+                    />
+                </label>
+                <label>
+                    Chicken: 
+                    <input 
+                        type="checkbox" 
+                        name="chicken" 
+                        onChange={change}
+                        checked={formState.chicken}
+                    />
+                </label>
+                <label for="special-text">
+                    Special Instruction:
+                    <input 
+                        type="text" 
+                        name="special"
+                        id="special-text" 
+                        onChange={change}
+                        value={formState.special}
+                    />
+                </label>
+                {error ? <p>{error}</p> : null}
+                <button type="submit"
+                    id="order-button"
+                    disabled={error.length > 0}
+                >Add to Order</button>
             </form>
         </div>
     )
