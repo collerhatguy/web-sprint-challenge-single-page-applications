@@ -13,6 +13,7 @@ const defaultForm = {
 export default function Form() {
     const [formState, setFormState] = useState(defaultForm);
     const [error, setError] = useState("")
+    const [orders, setOrders] = useState([])
     const change = evt => {
         const {value, type, name, checked} = evt.target;
         const newValue = type === "checkbox" ? checked : value;
@@ -24,11 +25,13 @@ export default function Form() {
         evt.preventDefault();
         const newOrder = {
             ...formState,
-            name:  formState.name.trim(),
+            name: formState.name.trim(),
             size: formState.size.trim(),
             special: formState.special.trim(),
         }
         axios.post("https://reqres.in/api/orders", newOrder)
+            .then(res => setOrders(prev => [...prev, res.data]))
+
         
         setFormState(defaultForm);
     }
