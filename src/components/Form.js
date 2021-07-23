@@ -14,6 +14,7 @@ export default function Form() {
     const [formState, setFormState] = useState(defaultForm);
     const [error, setError] = useState("")
     const [orders, setOrders] = useState([])
+
     const change = evt => {
         const {value, type, name, checked} = evt.target;
         const newValue = type === "checkbox" ? checked : value;
@@ -33,12 +34,11 @@ export default function Form() {
             .then(res => setOrders(prev => [...prev, res.data]))
             .catch(err => console.log(err))
             .finally(() => setFormState(defaultForm));
-            
+
     }
     useEffect(() => {
         const { name } = formState;
-        const newError = name.length < 2 ? "name must be at least 2 characters" : "";
-        setError(newError);
+        setError(name.length < 2 ? "name must be at least 2 characters" : "");
     }, [formState])
     return (
         <main>

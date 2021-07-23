@@ -1,11 +1,9 @@
 
-describe("testing the site", () => {
+describe("form tests", () => {
     beforeEach(() => {
         cy.visit("http://localhost:3000/pizza")
     })
-    it("can add text", () => {
-        submitBtn()
-            .should("be.disabled")
+    it("unit tests", () => {
         testText(nameInput())
         testText(specialInput())
         testCheckbox(olivesInput())
@@ -15,9 +13,11 @@ describe("testing the site", () => {
         sizeInput()
             .select("large")
             .should("have.value", "large")
-
-        submitBtn()
-            .should("not.be.disabled")
+    })
+    it("submit test", () => {
+        submitBtn().should("be.disabled")
+        nameInput().type("name")
+        submitBtn().should("not.be.disabled")
     })
 })
 const testCheckbox = checkbox => {
